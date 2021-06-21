@@ -5,48 +5,6 @@ import (
 	"reflect"
 )
 
-type User struct {
-	Name string
-	Surname *string
-	Phone int
-}
-
-type PC struct {
-	Name string
-	GPU *string
-	CPU string
-}
-
-var Surname2 = "GoodfellowДл"
-var GeF = "GeForceТитан"
-func main() {
-	user := User{
-		Name: "спутникVasya",
-		Surname: &Surname2,
-		Phone: 98599,
-	}
-	pc := PC{
-		Name: "MacbookЭйр",
-		GPU: &GeF,
-		CPU: "M1",
-	}
-
-
-	fmt.Println(user.Name)
-	DeleteCyrillic(&user)
-	fmt.Println(user.Name)
-
-	fmt.Println(pc)
-
-	//fmt.Println(pc.Name)
-	//fmt.Println(*pc.GPU)
-	//DeleteCyrillic(&pc)
-	//fmt.Println(pc.Name)
-	//fmt.Println(*pc.GPU)
-
-	fmt.Println(pc, DeleteCyrillic(&pc))
-}
-
 // DeleteCyrillic deletes cyrillic alpha from User's field
 func DeleteCyrillic(pointer interface{}) interface{} {
 	v := reflect.ValueOf(pointer).Elem()

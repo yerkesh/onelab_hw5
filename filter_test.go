@@ -5,14 +5,26 @@ import (
 	"testing"
 )
 
+type user struct {
+	Name string
+	Surname *string
+	Phone int
+}
+
+type pc struct {
+	Name string
+	GPU *string
+	CPU string
+}
+
 var surname1 = "GoodfellowДл"
 var surname2 = "Goodfellow"
-var user1 = User{
+var user1 = user{
 	Name: "ElonИ",
 	Surname: &surname1,
 	Phone: 987456,
 }
-var user2 = User{
+var user2 = user{
 	Name: "Elon",
 	Surname: &surname2,
 	Phone: 987456,
@@ -20,12 +32,12 @@ var user2 = User{
 
 var GeF1 = "GeForceТитан"
 var GeF2 = "GeForce"
-var pc1 = PC{
+var pc1 = pc{
 	Name: "MacbookЭйр",
 	GPU: &GeF1,
 	CPU: "M1",
 }
-var pc2 = PC{
+var pc2 = pc{
 	Name: "Macbook",
 	GPU: &GeF2,
 	CPU: "M1",
