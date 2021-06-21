@@ -11,39 +11,62 @@ type User struct {
 	Phone int
 }
 
-var Surname2 string = "GooЙыЙd"
+type PC struct {
+	Name string
+	GPU *string
+	CPU string
+}
+
+var Surname2 = "GoodfellowДл"
+var GeF = "GeForceТитан"
 func main() {
 	user := User{
-		Name: "YYYвакV",
+		Name: "спутникVasya",
 		Surname: &Surname2,
 		Phone: 98599,
 	}
+	pc := PC{
+		Name: "MacbookЭйр",
+		GPU: &GeF,
+		CPU: "M1",
+	}
 
 
+	fmt.Println(user.Name)
 	DeleteCyrillic(&user)
 	fmt.Println(user.Name)
+
+	fmt.Println(pc)
+
+	//fmt.Println(pc.Name)
+	//fmt.Println(*pc.GPU)
+	//DeleteCyrillic(&pc)
+	//fmt.Println(pc.Name)
+	//fmt.Println(*pc.GPU)
+
+	fmt.Println(pc, DeleteCyrillic(&pc))
 }
 
 // DeleteCyrillic deletes cyrillic alpha from User's field
-func DeleteCyrillic(par interface{}) interface{} {
-	dgf := reflect.ValueOf(par).Elem()
-	for i := 0; i < dgf.NumField(); i++ { ///тут кирилица не обновляется, думаю из-за метода Elem(). Хотелось бы юзать пойнтер как "*dgf.NumField()"
-			typ := dgf.Field(i).Type().String() //selected type of struct
-			val := dgf.Field(i) //value of struct
+func DeleteCyrillic(pointer interface{}) interface{} {
+	v := reflect.ValueOf(pointer).Elem()
+	for i := 0; i < v.NumField(); i++ {
+			typ := v.Field(i).Type().String() //selected type of struct
+			val := v.Field(i)                 //value of struct
 			switch typ {
 			case "string":
 				var str = val.Interface().(string) //changing reflect.type --> string
 				str = filter(str)
-				fmt.Println("string", str)
+				val.SetString(str)
 			case "*string":
 				var str = *val.Interface().(*string) //changing reflect.type --> string
 				str = filter(str)
-				fmt.Println("*string ", str)
+				val.Set(reflect.ValueOf(&str))
 			default:
-				fmt.Printf("unknown type %T\n", val)
+				fmt.Printf("unknown type %v\n", val.Kind())
 			}
 	}
-	return dgf
+	return pointer
 }
 //filter is used to remove cyrillic alpha from given a string
 func filter(str string) string{
