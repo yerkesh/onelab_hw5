@@ -61,8 +61,8 @@ func TestFilter(t *testing.T)  {
 
 	//Act
 	for _, testCase := range testTable {
-		result := DeleteCyrillic(testCase.myStruct) // Passing struct
-		v := reflect.ValueOf(result).Elem() // Got from func
+		result := DeleteCyrillic(testCase.myStruct)           // Passing struct
+		v := reflect.ValueOf(result).Elem()                   // Got from func
 		expected := reflect.ValueOf(testCase.expected).Elem() // expected struct
 		for i := 0; i < v.NumField(); i++ {
 			typ := v.Field(i).Type().String() //selected type of struct
@@ -85,4 +85,44 @@ func TestFilter(t *testing.T)  {
 	}
 
 
+}
+
+var Expect = []User{
+	{1, Address{5, "Satbayev"}, 20},
+	{1, Address{6, "Al-Farabi"}, 32},
+}
+func TestUnmarshal(t *testing.T) {
+	testTable := []struct {
+		myStruct []byte
+		expected []User
+	}{
+		{
+			myStruct: []byte(`[
+				  {
+					"id": 1,
+					"address": {
+					  "city_id": 5,
+					  "street": "Satbayev"
+					},
+					"Age": 20
+				  },
+				  {
+					"id": 1,
+					"address": {
+					  "city_id": "6",
+					  "street": "Al-Farabi"
+					},
+					"Age": "32"
+				  }
+				]`),
+			expected: Expect,
+		},
+	}
+
+	for _, testCase := range testTable {
+		result := MyUnmarshal(testCase.myStruct)
+		if !reflect.DeepEqual(result, testCase.expected) {
+			t.Errorf("Incorrect result, Expect %v, got %v", testCase.expected, result)
+		}
+	}
 }

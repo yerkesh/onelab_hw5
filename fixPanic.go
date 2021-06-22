@@ -82,6 +82,7 @@ var rawXML = []byte(`
 	`)
 
 func main() {
+	// Json
 	var users []User
 	if err := json.Unmarshal(rawJson, &users); err != nil {
 		panic(err)
@@ -90,7 +91,8 @@ func main() {
 	for _, user := range users {
 		fmt.Printf("%#v\n", user)
 	}
-	//XML
+	fmt.Println(users)
+	// XML
 	var userss Users
 	if err := xml.Unmarshal(rawXML, &userss); err != nil {
 		panic(err)
@@ -99,7 +101,15 @@ func main() {
 	for _, user := range userss.Users {
 		fmt.Printf("%#v\n", user)
 	}
+}
 
+func MyUnmarshal(data []byte) []User {
+	// Json
+	var users []User
+	if err := json.Unmarshal(data, &users); err != nil {
+		panic(err)
+	}
+	return  users
 }
 
 type User struct {
@@ -117,3 +127,6 @@ type Users struct {
 	XMLName xml.Name `xml:"users"`
 	Users   []User   `xml:"user"`
 }
+
+
+
